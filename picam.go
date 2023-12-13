@@ -1,4 +1,4 @@
-package picam
+package main
 
 import (
 	"fmt"
@@ -17,6 +17,8 @@ func main() {
 	defer f.Close()
 
 	s := raspicam.NewStill()
+	s.Quality = 100
+
 	errCh := make(chan error)
 	go func() {
 		for x := range errCh {
