@@ -4,9 +4,21 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
+	"syscall"
 
-	"github.com/dhowden/raspicam"
+	"github.com/pointer2null/raspicam"
 )
+
+func init() {
+	c := make(chan os.Signal)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	go func() {
+		<-c
+		// Run Cleanup
+		os.Exit(1)
+	}()
+}
 
 func main() {
 	f, err := os.Create(os.Args[1])
